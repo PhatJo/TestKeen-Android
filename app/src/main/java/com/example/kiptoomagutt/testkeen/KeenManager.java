@@ -38,6 +38,7 @@ public class KeenManager {
         mKeenClient = new AndroidKeenClientBuilder(mContext).build();
         mKeenProject = new KeenProject(keenProjectId, keenWriteKey, keenReadKey);
         mKeenClient.setDefaultProject(mKeenProject);
+        mKeenClient.setDebugMode(true);
         KeenLogging.enableLogging();
     }
 
