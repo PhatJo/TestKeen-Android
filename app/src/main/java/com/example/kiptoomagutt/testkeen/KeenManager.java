@@ -46,14 +46,14 @@ public class KeenManager {
         return keenManager;
     }
 
-    public static void trackMyActivityCreated() {
+    public static void trackMyActivityCreated(Map<String, String> map) {
         mSessionEventData = new HashMap<String, Object>();
         long activityStart =  System.currentTimeMillis() / 1000L;
+        Log.d(TAG, "key size = " + map.size());
         mSessionEventData.put("activity_started_at", activityStart);
-        mKeenClient.queueEvent("activity_launches", mSessionEventData);
     }
 
-    public static void trackMyActivityStopped() {
+    public static void trackMyActivityStopped(Map<String, String> map) {
         KeenCallback keenCallBack = new KeenCallback () {
             @Override
             public void onFailure(Exception arg0) {
@@ -65,8 +65,14 @@ public class KeenManager {
                 Log.d(TAG, "event posted successfully");
             }
         };
+
+        //map.put("eh", "some garbage");
+        map.containsKey("somekey");
+
         long activityEnd =  System.currentTimeMillis() / 1000L;
         mSessionEventData.put("activity_closed_at", activityEnd);
+
+        mKeenClient.queueEvent("activity_launches", mSessionEventData);
         mKeenClient.sendQueuedEventsAsync(mKeenProject, keenCallBack);
     }
 }

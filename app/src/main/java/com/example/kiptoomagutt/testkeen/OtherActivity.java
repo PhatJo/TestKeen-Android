@@ -6,15 +6,20 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class OtherActivity extends Activity {
     private Handler mHandler = new Handler();
-
+    Map<String, String> mBigObj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other);
-        KeenManager.getInstance().trackMyActivityCreated();
+        mBigObj = new HashMap<String, String>();
+        mBigObj.put("somekey", new BigString().getBigString());
+        KeenManager.getInstance().trackMyActivityCreated(mBigObj);
         mHandler.postDelayed(new Runnable() {
             public void run() {
                 finish();
@@ -25,7 +30,7 @@ public class OtherActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        KeenManager.getInstance().trackMyActivityStopped();
+        KeenManager.getInstance().trackMyActivityStopped(mBigObj);
     }
 
     @Override
